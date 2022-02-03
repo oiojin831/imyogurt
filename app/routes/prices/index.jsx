@@ -33,6 +33,11 @@ export const loader = async () => {
       prev[`item${idx + 1}Name`] = v.ingredient_name;
       prev[`item${idx + 1}Price`] = v.one_portion_price.toFixed(2);
       prev['sumPrice'] = sumPrice.toFixed(2);
+      prev['unitPrice'] = v.unit_price;
+      prev['priceRatio'] = ((sumPrice / v.unit_price) * 100).toFixed(2);
+      prev['priceRange'] = `${(v.unit_price * 0.2).toFixed(2)} ~ ${(
+        v.unit_price * 0.3
+      ).toFixed(2)}`;
       return prev;
     }, {});
     newArr.push({
@@ -65,9 +70,25 @@ function DataTable() {
         accessor: 'name',
       },
       {
-        Header: '총원가',
+        Header: '판매가',
         minWidth: 100,
+        accessor: 'unitPrice',
+      },
+      {
+        Header: '총원가',
+        minWidth: 120,
         accessor: 'sumPrice',
+      },
+      {
+        Header: '비율',
+        minWidth: 100,
+        accessor: 'priceRatio',
+        Cell: (props) => <div>{props.value + '%'} </div>,
+      },
+      {
+        Header: '마지노선',
+        minWidth: 100,
+        accessor: 'priceRange',
       },
       {
         Header: '재료1',

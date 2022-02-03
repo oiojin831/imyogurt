@@ -119,7 +119,7 @@ export default function NewRecipe() {
           ))}
         </Select>
       </Flex>
-      <Button type="submit">Create Ingredient</Button>
+      <Button type="submit">레시피 생성</Button>
     </Form>
   );
 }
