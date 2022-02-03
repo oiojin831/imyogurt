@@ -10,12 +10,20 @@ export async function createIngredient(ingredient) {
 }
 
 export async function createRecipe(recipe) {
-  const { name, unitVolume, totalVolume, ingredientIds, ingredientVolumes } =
-    recipe;
+  const {
+    name,
+    price,
+    unitVolume,
+    totalVolume,
+    ingredientIds,
+    ingredientVolumes,
+  } = recipe;
   console.log(name);
   const { data, error } = await supabase
     .from('recipes')
-    .insert([{ name, unit_volume: unitVolume, total_volume: totalVolume }])
+    .insert([
+      { name, price, unit_volume: unitVolume, total_volume: totalVolume },
+    ])
     .single();
 
   console.log('insert', data);

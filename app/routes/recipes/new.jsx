@@ -10,6 +10,7 @@ export const action = async ({ request }) => {
   const name = formData.get('name');
   const unitVolume = formData.get('unitVolume');
   const totalVolume = formData.get('totalVolume');
+  const price = formData.get('price');
   const ingredientIds = [];
   const ingredientVolumes = [];
   [0, 1, 2, 3, 4].forEach((idx) => {
@@ -22,6 +23,7 @@ export const action = async ({ request }) => {
     name,
     unitVolume,
     totalVolume,
+    price,
     ingredientIds,
     ingredientVolumes,
   });
@@ -44,11 +46,14 @@ export default function NewRecipe() {
           Name: <Input type="text" id="name" name="name" />
         </FormLabel>
         <FormLabel htmlFor="unitVolume">
-          Unit volume: <Input type="number" id="unitVolume" name="unitVolume" />
+          개당 용량: <Input type="number" id="unitVolume" name="unitVolume" />
         </FormLabel>
         <FormLabel htmlFor="totalVolume">
-          Total Volume:{' '}
+          총 생산 용양:{' '}
           <Input type="number" id="totalVolume" name="totalVolume" />
+        </FormLabel>
+        <FormLabel htmlFor="price">
+          개당 판매가: <Input type="number" id="price" name="price" />
         </FormLabel>
       </Flex>
       <Flex>
