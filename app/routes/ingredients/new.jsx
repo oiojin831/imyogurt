@@ -10,7 +10,7 @@ export const action = async ({ request }) => {
 
   await createIngredient({ name, price, volume });
 
-  return redirect('/');
+  return redirect('/ingredients');
 };
 export const loader = async ({ request }) => {
   return {};

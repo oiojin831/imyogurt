@@ -3,7 +3,7 @@ import { supabase } from './libs/supabase';
 export async function createIngredient(ingredient) {
   const { name, price, volume } = ingredient;
   const { data, error } = await supabase
-    .from('ingredient_price')
+    .from('ingredients')
     .insert([{ price, name, volume }])
     .single();
   return null;
