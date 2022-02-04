@@ -5,6 +5,7 @@ import {
   Table,
   Thead,
   Tbody,
+  Box,
   Tr,
   Th,
   Td,
@@ -62,11 +63,33 @@ function DataTable() {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    getToggleHideAllColumnsProps,
+    allColumns,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data }, useSortBy);
 
   return (
     <>
+      <div>
+        <div>
+          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
+          All
+        </div>
+        {allColumns.map((column) => (
+          <div key={column.id}>
+            <label>
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.id}
+            </label>
+          </div>
+        ))}
+        <br />
+      </div>
       <Flex justify="end">
         <Link to="/ingredients/new">
           <Button colorScheme="teal" variant="outline">
@@ -75,48 +98,63 @@ function DataTable() {
         </Link>
       </Flex>
 
-      <Table {...getTableProps()}>
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <Th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  isNumeric={column.isNumeric}
-                >
-                  {column.render('Header')}
-                  <chakra.span pl="4">
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <TriangleDownIcon aria-label="sorted descending" />
-                      ) : (
-                        <TriangleUpIcon aria-label="sorted ascending" />
-                      )
-                    ) : null}
-                  </chakra.span>
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <Tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <Td
-                    {...cell.getCellProps()}
-                    isNumeric={cell.column.isNumeric}
+      <Box maxW="100%" overflowX="scroll" overflowY="hidden">
+        <Table {...getTableProps()}>
+          <Thead>
+            {headerGroups.map((headerGroup) => (
+              <Tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    isNumeric={column.isNumeric}
                   >
-                    {cell.render('Cell')}
-                  </Td>
+                    {column.render('Header')}
+                    <chakra.span pl="4">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <TriangleDownIcon aria-label="sorted descending" />
+                        ) : (
+                          <TriangleUpIcon aria-label="sorted ascending" />
+                        )
+                      ) : null}
+                    </chakra.span>
+                  </Th>
                 ))}
               </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <Tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <Td
+                      {...cell.getCellProps()}
+                      isNumeric={cell.column.isNumeric}
+                    >
+                      {cell.render('Cell')}
+                    </Td>
+                  ))}
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </Box>
     </>
   );
 }
+
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
+
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+
+    return <input type="checkbox" ref={resolvedRef} {...rest} />;
+  }
+);

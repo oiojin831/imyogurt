@@ -4,6 +4,7 @@ import {
   Flex,
   Table,
   Thead,
+  Box,
   Tbody,
   Tr,
   Th,
@@ -94,11 +95,33 @@ function DataTable() {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+  const {
+    getTableProps,
+    getToggleHideAllColumnsProps,
+    allColumns,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data }, useSortBy);
 
   return (
     <>
+      <div>
+        <div>
+          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
+          All
+        </div>
+        {allColumns.map((column) => (
+          <div key={column.id}>
+            <label>
+              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+              {column.id}
+            </label>
+          </div>
+        ))}
+        <br />
+      </div>
       <Flex justify="end">
         <Link to="/recipes/new">
           <Button colorScheme="teal" variant="outline">
@@ -106,7 +129,6 @@ function DataTable() {
           </Button>
         </Link>
       </Flex>
-
       <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup) => (
@@ -152,3 +174,15 @@ function DataTable() {
     </>
   );
 }
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
+
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+
+    return <input type="checkbox" ref={resolvedRef} {...rest} />;
+  }
+);
