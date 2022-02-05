@@ -6,7 +6,7 @@ const IngredientLayout = () => {
       <Flex>
         <Button
           as={Link}
-          to="/recipes/new"
+          to="/ingredients/new"
           colorScheme="teal"
           variant="outline"
         >
