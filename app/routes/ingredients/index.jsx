@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'remix';
+import { useLoaderData, Link } from 'remix';
 import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
 import { supabase } from '../../libs/supabase.js';
 import { HiPencilAlt } from 'react-icons/hi';
@@ -23,9 +23,10 @@ export const loader = async () => {
 export default function Index() {
   const data = useLoaderData();
   return (
-    <Flex flexFlow="wrap">
+    <Flex flexFlow="wrap" justify="space-around">
       {data.map((entry) => (
         <Box
+          minW="400px"
           as="section"
           bg={useColorModeValue('gray.100', 'inherit')}
           py="4"
@@ -36,9 +37,17 @@ export default function Index() {
             <CardHeader
               title={entry.name}
               action={
-                <Button variant="outline" minW="20" leftIcon={<HiPencilAlt />}>
-                  Edit
-                </Button>
+                <form action={`/ingredients/${entry.id}`} method="post">
+                  <input type="hidden" name="_method" value="delete" />
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    minW="20"
+                    leftIcon={<HiPencilAlt />}
+                  >
+                    DELETE
+                  </Button>
+                </form>
               }
             />
             <CardContent>
