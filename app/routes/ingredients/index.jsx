@@ -1,20 +1,14 @@
 import React from 'react';
-import { useLoaderData, Link } from 'remix';
-import {
-  Flex,
-  Table,
-  Thead,
-  Tbody,
-  Box,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Button,
-} from '@chakra-ui/react';
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { useTable, useSortBy } from 'react-table';
+import { useLoaderData } from 'remix';
+import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
 import { supabase } from '../../libs/supabase.js';
+import { HiPencilAlt } from 'react-icons/hi';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Property,
+} from '../../components/Card/';
 
 export const loader = async () => {
   const { data: ingredients } = await supabase
@@ -27,134 +21,37 @@ export const loader = async () => {
 };
 
 export default function Index() {
-  return <DataTable />;
-}
-
-function DataTable() {
-  const ingredients = useLoaderData();
-  const derived = ingredients.map((i) => {
-    return { ...i, unitPrice: i.price / i.volume };
-  });
-
-  const data = React.useMemo(() => derived, []);
-
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: '이름',
-        accessor: 'name',
-      },
-      {
-        Header: '구입가격',
-        accessor: 'price',
-        isNumeric: true,
-      },
-      {
-        Header: '용량',
-        accessor: 'volume',
-        isNumeric: true,
-      },
-      {
-        Header: '단위 가격',
-        accessor: 'unitPrice',
-        isNumeric: true,
-      },
-    ],
-    []
-  );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    getToggleHideAllColumnsProps,
-    allColumns,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data }, useSortBy);
-
+  const data = useLoaderData();
   return (
-    <>
-      <div>
-        <div>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
-          All
-        </div>
-        {allColumns.map((column) => (
-          <div key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.id}
-            </label>
-          </div>
-        ))}
-        <br />
-      </div>
-      <Flex justify="end">
-        <Link to="/ingredients/new">
-          <Button colorScheme="teal" variant="outline">
-            추가
-          </Button>
-        </Link>
-      </Flex>
-
-      <Box maxW="100%" overflowX="scroll" overflowY="hidden">
-        <Table {...getTableProps()}>
-          <Thead>
-            {headerGroups.map((headerGroup) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <Th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    isNumeric={column.isNumeric}
-                  >
-                    {column.render('Header')}
-                    <chakra.span pl="4">
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <TriangleDownIcon aria-label="sorted descending" />
-                        ) : (
-                          <TriangleUpIcon aria-label="sorted ascending" />
-                        )
-                      ) : null}
-                    </chakra.span>
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <Td
-                      {...cell.getCellProps()}
-                      isNumeric={cell.column.isNumeric}
-                    >
-                      {cell.render('Cell')}
-                    </Td>
-                  ))}
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </Box>
-    </>
+    <Flex flexFlow="wrap">
+      {data.map((entry) => (
+        <Box
+          as="section"
+          bg={useColorModeValue('gray.100', 'inherit')}
+          py="4"
+          px={{ md: '8' }}
+          key={entry.id}
+        >
+          <Card maxW="3xl" mx="auto">
+            <CardHeader
+              title={entry.name}
+              action={
+                <Button variant="outline" minW="20" leftIcon={<HiPencilAlt />}>
+                  Edit
+                </Button>
+              }
+            />
+            <CardContent>
+              <Property label="구매 가격" value={`${entry.price}원`} />
+              <Property label="총 용량" value={entry.volume} />
+              <Property
+                label="단위가격(1g, 1ml)"
+                value={`${(entry.price / entry.volume).toFixed(2)}원`}
+              />
+            </CardContent>
+          </Card>
+        </Box>
+      ))}
+    </Flex>
   );
 }
-
-const IndeterminateCheckbox = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return <input type="checkbox" ref={resolvedRef} {...rest} />;
-  }
-);

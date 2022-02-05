@@ -60,7 +60,7 @@ const Shell = (props: {
             _hover={{ bg: 'whiteAlpha.200' }}
             whiteSpace="nowrap"
           >
-            <UserInfo name="Esther Collins" email="esther-colls@chakra.com" />
+            <UserInfo name="I'm Yogurt" email="nyj@imyogurt.com" />
           </Box>
           <ScrollArea pt="5" pb="6">
             <Stack pb="6">
