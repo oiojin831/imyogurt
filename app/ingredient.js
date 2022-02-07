@@ -36,7 +36,28 @@ export async function createRecipe(recipe) {
       volume: ingredientVolumes[idx],
     };
   });
-  console.log(ingredients);
   await supabase.from('recipes_ingredients_volume').insert(ingredients);
+  return null;
+}
+
+export async function createSetMenu(setMenu) {
+  const { name, recipeIds, recipeQuantities } = setMenu;
+  const { data, error } = await supabase
+    .from('set_menus')
+    .insert([
+      {
+        name,
+      },
+    ])
+    .single();
+
+  const recipes = recipeIds.map((reci, idx) => {
+    return {
+      set_menu_id: data.id,
+      recipe_id: reci,
+      quantity: recipeQuantities[idx],
+    };
+  });
+  await supabase.from('set_menus_recipes').insert(recipes);
   return null;
 }
