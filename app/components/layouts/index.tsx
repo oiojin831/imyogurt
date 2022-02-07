@@ -73,6 +73,9 @@ const Shell = (props: {
               <SidebarLink to="/prices" icon={<BsPencilSquare />}>
                 원가
               </SidebarLink>
+              <SidebarLink to="/set-menus" icon={<BsPencilSquare />}>
+                세트 메뉴
+              </SidebarLink>
             </Stack>
           </ScrollArea>
         </Box>

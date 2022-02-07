@@ -2,6 +2,7 @@ import React from 'react';
 import { useLoaderData, Link } from 'remix';
 import {
   Flex,
+  Box,
   Table,
   Thead,
   Tbody,
@@ -11,9 +12,17 @@ import {
   chakra,
   Button,
 } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useTable, useSortBy } from 'react-table';
 import { supabase } from '../../libs/supabase.js';
+const round = Math.round;
 
 export const loader = async () => {
   let { data, error } = await supabase.rpc('one_portion_price');
@@ -29,15 +38,20 @@ export const loader = async () => {
   for (const [key, value] of Object.entries(result)) {
     let sumPrice = 0;
     const items = value.reduce((prev, v, idx) => {
-      sumPrice = sumPrice + v.one_portion_price;
+      sumPrice = sumPrice + v.raw_price;
       prev[`item${idx + 1}Name`] = v.ingredient_name;
-      prev[`item${idx + 1}Price`] = v.one_portion_price.toFixed(2);
+      prev[`item${idx + 1}Price`] = v.raw_price.toFixed(2);
       prev['sumPrice'] = sumPrice.toFixed(2);
-      prev['unitPrice'] = v.unit_price;
-      prev['priceRatio'] = ((sumPrice / v.unit_price) * 100).toFixed(2);
-      prev['priceRange'] = `${(v.unit_price * 0.2).toFixed(2)} ~ ${(
-        v.unit_price * 0.3
-      ).toFixed(2)}`;
+      // prev['unitPrice'] = v.unit_price;
+      // prev['priceRatio'] = ((sumPrice / v.unit_price) * 100).toFixed(2);
+      // unit price는 state로 넣어놓기.
+      // prev['priceRange'] = `${(v.unit_price * 0.2).toFixed(2)} ~ ${(
+      //   v.unit_price * 0.3
+      // ).toFixed(2)}`;
+      prev['fairPriceRange'] = `${round(sumPrice * 3.3333333)},\n${round(
+        sumPrice * 5
+      )},\n${round(sumPrice * 10)}`;
+
       return prev;
     }, {});
     newArr.push({
@@ -69,34 +83,41 @@ function DataTable() {
         minWidth: 100,
         accessor: 'name',
       },
-      {
-        Header: '판매가',
-        minWidth: 100,
-        accessor: 'unitPrice',
-      },
+      // {
+      //   Header: '판매가',
+      //   minWidth: 100,
+      //   accessor: 'unitPrice',
+      // },
       {
         Header: '총원가',
         minWidth: 120,
         accessor: 'sumPrice',
       },
+      // {
+      //   Header: '비율',
+      //   minWidth: 100,
+      //   accessor: 'priceRatio',
+      //   Cell: (props) => <div>{props.value + '%'} </div>,
+      // },
+      // {
+      //   Header: '마지노선(20~30%)',
+      //   minWidth: 100,
+      //   accessor: 'priceRange',
+      // },
       {
-        Header: '비율',
+        Header: '적정판매가',
         minWidth: 100,
-        accessor: 'priceRatio',
-        Cell: (props) => <div>{props.value + '%'} </div>,
-      },
-      {
-        Header: '마지노선',
-        minWidth: 100,
-        accessor: 'priceRange',
+        accessor: 'fairPriceRange',
       },
       {
         Header: '재료1',
+        show: false,
         columns: [
           {
             Header: '이름',
             id: 'item1-name',
             accessor: 'item1Name',
+            show: false,
           },
           {
             Header: '원가',
@@ -107,6 +128,7 @@ function DataTable() {
       },
       {
         Header: '재료2',
+        show: false,
         columns: [
           {
             Header: '이름',
@@ -177,24 +199,45 @@ function DataTable() {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data }, useSortBy);
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useSortBy
+  );
 
   return (
     <>
       <div>
-        <div>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
-          All
-        </div>
-        {allColumns.map((column) => (
-          <div key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.id}
-            </label>
-          </div>
-        ))}
-        <br />
+        <Accordion allowMultiple>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Section 1 title
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              <div>
+                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />{' '}
+                Toggle All
+              </div>
+              {allColumns.map((column) => (
+                <div key={column.id}>
+                  <label>
+                    <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                    {console.log(column.getToggleHiddenProps())}
+                    {column.id}
+                  </label>
+                </div>
+              ))}
+              <br />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </div>
       <Table {...getTableProps()}>
         <Thead>

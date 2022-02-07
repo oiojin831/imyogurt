@@ -12,6 +12,13 @@ import {
   chakra,
   Button,
 } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { useTable, useSortBy } from 'react-table';
 import { supabase } from '../../libs/supabase.js';
@@ -19,7 +26,6 @@ import { supabase } from '../../libs/supabase.js';
 export const loader = async () => {
   let { data, error } = await supabase.rpc('one_batch_recipe');
 
-  console.log(data);
   result = data.reduce(function (newData, ele) {
     const { recipe_name, ...rest } = ele;
     newData[recipe_name] = newData[recipe_name] || [];
@@ -27,7 +33,6 @@ export const loader = async () => {
     return newData;
   }, {});
 
-  console.log(result);
   const newArr = [];
   for (const [key, value] of Object.entries(result)) {
     const items = value.reduce((prev, v, idx) => {
@@ -42,7 +47,6 @@ export const loader = async () => {
       ...items,
     });
   }
-  console.log('newarr', newArr);
 
   if (error) console.log('error', error);
   // We can pick and choose what we want to display
@@ -108,18 +112,32 @@ function DataTable() {
   return (
     <>
       <div>
-        <div>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
-          All
-        </div>
-        {allColumns.map((column) => (
-          <div key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.id}
-            </label>
-          </div>
-        ))}
+        <Accordion allowMultiple>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  필터
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              <div>
+                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />{' '}
+                Toggle All
+              </div>
+              {allColumns.map((column) => (
+                <div key={column.id}>
+                  <label>
+                    <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                    {column.id}
+                  </label>
+                </div>
+              ))}
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
         <br />
       </div>
       <Flex justify="end">

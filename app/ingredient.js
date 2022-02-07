@@ -12,21 +12,23 @@ export async function createIngredient(ingredient) {
 export async function createRecipe(recipe) {
   const {
     name,
-    price,
+    // price,
     unitVolume,
     totalVolume,
     ingredientIds,
     ingredientVolumes,
   } = recipe;
-  console.log(name);
   const { data, error } = await supabase
     .from('recipes')
     .insert([
-      { name, price, unit_volume: unitVolume, total_volume: totalVolume },
+      {
+        name,
+        /*price,*/ unit_volume: parseInt(unitVolume),
+        total_volume: parseInt(totalVolume),
+      },
     ])
     .single();
 
-  console.log('insert', data);
   const ingredients = ingredientIds.map((ing, idx) => {
     return {
       recipe_id: data.id,
@@ -34,6 +36,7 @@ export async function createRecipe(recipe) {
       volume: ingredientVolumes[idx],
     };
   });
+  console.log(ingredients);
   await supabase.from('recipes_ingredients_volume').insert(ingredients);
   return null;
 }

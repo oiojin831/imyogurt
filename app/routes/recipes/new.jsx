@@ -8,9 +8,10 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
 
   const name = formData.get('name');
-  const unitVolume = formData.get('unitVolume');
   const totalVolume = formData.get('totalVolume');
-  const price = formData.get('price');
+  const unitVolume = formData.get('unitVolume');
+  //const price = formData.get('price');
+  // 판매가는 정해지는게 아니기 때문에 레시피 보다는 다른 테이블에 넣는게 좋을거같다
   const ingredientIds = [];
   const ingredientVolumes = [];
   [0, 1, 2, 3, 4].forEach((idx) => {
@@ -23,7 +24,7 @@ export const action = async ({ request }) => {
     name,
     unitVolume,
     totalVolume,
-    price,
+    // price,
     ingredientIds,
     ingredientVolumes,
   });
@@ -52,13 +53,13 @@ export default function NewRecipe() {
           총 생산 용양:{' '}
           <Input type="number" id="totalVolume" name="totalVolume" />
         </FormLabel>
-        <FormLabel htmlFor="price">
+        {/* <FormLabel htmlFor="price">
           개당 판매가: <Input type="number" id="price" name="price" />
-        </FormLabel>
+        </FormLabel> */}
       </Flex>
       <Flex>
         <FormLabel htmlFor="ingredient1Volume">
-          재료1 용량:{' '}
+          한번 생산시 들어가는 재료1의 용량:{' '}
           <Input
             type="number"
             id="ingredient1Volume"
