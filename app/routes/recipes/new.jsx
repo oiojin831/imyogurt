@@ -29,7 +29,7 @@ export const action = async ({ request }) => {
     ingredientVolumes,
   });
 
-  return redirect('/');
+  return redirect('/recipes');
 };
 export const loader = async ({ request }) => {
   // ingredients 종류를 다 가져오기

@@ -70,11 +70,11 @@ const Shell = (props: {
               <SidebarLink to="/recipes" icon={<BsFillBookmarksFill />}>
                 레시피
               </SidebarLink>
-              <SidebarLink to="/prices" icon={<BsPencilSquare />}>
-                원가
-              </SidebarLink>
               <SidebarLink to="/set-menus" icon={<BsPencilSquare />}>
                 세트 메뉴
+              </SidebarLink>
+              <SidebarLink to="/prices" icon={<BsPencilSquare />}>
+                레시피 원가
               </SidebarLink>
             </Stack>
           </ScrollArea>
