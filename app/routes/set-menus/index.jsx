@@ -24,13 +24,16 @@ export const loader = async () => {
   const loaderData = secondGroup.map((menu, idx) => {
     const newArr = [];
     for (const [key, value] of Object.entries(secondGroup[idx])) {
+      let quant = 0;
       const price = value.reduce((prev, v, idx) => {
         prev = prev + v.quantity.toFixed(2) * v.raw_price.toFixed(2);
+        quant = v.quantity;
         return prev;
       }, 0);
       newArr.push({
         name: key,
         price,
+        quantity: quant,
       });
     }
     return { [Object.keys(result)[idx]]: newArr };
@@ -64,7 +67,7 @@ export default function Index() {
                     return (
                       <Property
                         key={`${idx}-${recipe.name}`}
-                        label={recipe.name}
+                        label={`${recipe.name}(${Object.values(recipe)[2]})`}
                         value={recipeRaw}
                       />
                     );
@@ -79,7 +82,7 @@ export default function Index() {
                     value={(totalRaw * 5).toFixed(2)}
                   />
                   <Property
-                    label="판매가(10%가 원가일때)"
+                    label="판매가(30%가 원가일때)"
                     value={(totalRaw * 3.3333333).toFixed(2)}
                   />
                 </>
