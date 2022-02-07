@@ -241,10 +241,11 @@ function DataTable() {
       </div>
       <Table {...getTableProps()}>
         <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+          {headerGroups.map((headerGroup, idx) => (
+            <Tr key={idx} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column, idx2) => (
                 <Th
+                  key={idx2}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   isNumeric={column.isNumeric}
                 >
