@@ -70,6 +70,18 @@ export default function Index() {
                     );
                   })}
                   <Property label="총 원가" value={totalRaw.toFixed(2)} />
+                  <Property
+                    label="판매가(10%가 원가일때)"
+                    value={(totalRaw * 10).toFixed(2)}
+                  />
+                  <Property
+                    label="판매가(20%가 원가일때)"
+                    value={(totalRaw * 5).toFixed(2)}
+                  />
+                  <Property
+                    label="판매가(10%가 원가일때)"
+                    value={(totalRaw * 3.3333333).toFixed(2)}
+                  />
                 </>
               </CardContent>
             </Card>
