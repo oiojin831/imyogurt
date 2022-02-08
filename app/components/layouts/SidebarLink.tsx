@@ -6,7 +6,7 @@ import {
   Text,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
-import { Link as RemixLink } from 'remix';
+import { NavLink as RemixLink } from 'remix';
 import * as React from 'react';
 
 interface SidebarLinkProps extends BoxProps {
@@ -17,6 +17,7 @@ interface SidebarLinkProps extends BoxProps {
 
 export const SidebarLink = (props: SidebarLinkProps) => {
   const { children, icon = <ArrowRight />, avatar, to, ...rest } = props;
+
   return (
     <Box
       to={to}

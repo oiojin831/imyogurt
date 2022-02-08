@@ -1,5 +1,5 @@
 import { redirect, Form } from 'remix';
-import { createIngredient } from '../../ingredient';
+import { createIngredient } from '../../remoteApi';
 
 export const action = async ({ request }) => {
   const formData = await request.formData();

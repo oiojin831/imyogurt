@@ -1,5 +1,5 @@
 import { redirect, Form, useLoaderData } from 'remix';
-import { createRecipe } from '../../ingredient';
+import { createRecipe } from '../../remoteApi';
 import { Select } from '@chakra-ui/react';
 import { supabase } from '../../libs/supabase.js';
 import { FormLabel, Flex, Button, Input } from '@chakra-ui/react';

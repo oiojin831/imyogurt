@@ -6,11 +6,15 @@ import {
   Heading,
   useColorModeValue as mode,
 } from '@chakra-ui/react';
+import { useLocation } from 'remix';
 import {
   BsFillBookmarksFill,
   BsFillInboxFill,
   BsPencilSquare,
 } from 'react-icons/bs';
+
+import { Link, Outlet } from 'remix';
+import { Button } from '@chakra-ui/react';
 
 import { UserInfo } from './UserInfo';
 import { ScrollArea } from './ScrollArea';
@@ -30,6 +34,7 @@ const Shell = (props: {
     | undefined;
 }) => {
   const { isOpen, toggle } = useMobileMenuState();
+  const location = useLocation();
 
   return (
     <Flex
@@ -110,7 +115,18 @@ const Shell = (props: {
             </Flex>
             <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
               <Heading size="md" fontWeight="extrabold" mb="6">
-                Product Vision
+                <Flex direction="row" justify="space-between">
+                  {location.pathname.substring(1).toUpperCase()}
+                  <Button
+                    as={Link}
+                    to={`${location.pathname}/new`}
+                    colorScheme="teal"
+                    variant="outline"
+                  >
+                    추가
+                  </Button>
+                </Flex>
+                <Flex></Flex>
               </Heading>
               <Box borderWidth="3px" borderStyle="dashed" rounded="xl">
                 {props.children}

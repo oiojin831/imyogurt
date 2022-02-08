@@ -25,6 +25,7 @@ import { supabase } from '../../libs/supabase.js';
 
 export const loader = async () => {
   let { data, error } = await supabase.rpc('one_batch_recipe');
+  console.log(data.map((a) => a.batch_volume));
 
   result = data.reduce(function (newData, ele) {
     const { recipe_name, ...rest } = ele;
@@ -37,9 +38,9 @@ export const loader = async () => {
   for (const [key, value] of Object.entries(result)) {
     const items = value.reduce((prev, v, idx) => {
       prev['unitVolume'] = v.unit_volume.toFixed(2);
-      prev['totalVolume'] = v.total_volume.toFixed(2);
+      prev['totalVolume'] = v.total_volume?.toFixed(2);
       prev[`item${idx + 1}Name`] = v.ingredient_name;
-      prev[`item${idx + 1}BatchVolume`] = v.batch_volume.toFixed(2);
+      prev[`item${idx + 1}BatchVolume`] = v.batch_volume?.toFixed(2);
       return prev;
     }, {});
     newArr.push({
@@ -140,13 +141,6 @@ function DataTable() {
         </Accordion>
         <br />
       </div>
-      <Flex justify="end">
-        <Link to="/recipes/new">
-          <Button colorScheme="teal" variant="outline">
-            추가
-          </Button>
-        </Link>
-      </Flex>
       <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup) => (
