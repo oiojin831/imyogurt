@@ -41,23 +41,31 @@ export async function createRecipe(recipe) {
 }
 
 export async function createSetMenu(setMenu) {
-  const { name, recipeIds, recipeQuantities } = setMenu;
+  const { id, name, recipeIds, setMenuRecipeIds, recipeQuantities } = setMenu;
+  console.log(id);
   const { data, error } = await supabase
     .from('set_menus')
-    .insert([
+    .upsert([
       {
+        ...(id && { id }),
         name,
       },
     ])
     .single();
 
+  console.log(data);
   const recipes = recipeIds.map((reci, idx) => {
     return {
       set_menu_id: data.id,
       recipe_id: reci,
+      ...(setMenuRecipeIds && { id: setMenuRecipeIds[idx] }),
       quantity: recipeQuantities[idx],
     };
   });
-  await supabase.from('set_menus_recipes').insert(recipes);
+  await supabase.from('set_menus_recipes').upsert(recipes);
   return null;
+}
+
+export async function duplicateSetMenu(setMenu) {
+  console.log('hh');
 }

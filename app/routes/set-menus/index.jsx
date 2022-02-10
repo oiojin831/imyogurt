@@ -32,6 +32,8 @@ export const loader = async () => {
       }, 0);
       newArr.push({
         name: key,
+        recipe_id: value[0].recipe_id,
+        set_menu_id: value[0].set_menu_id,
         price,
         quantity: quant,
       });
@@ -48,6 +50,7 @@ export default function Index() {
     <Flex flexFlow="wrap" justify="space-around">
       {data.map((entry, idx) => {
         let totalRaw = 0;
+        console.log('entry', entry);
         return (
           <Box
             minW="400px"
@@ -57,17 +60,26 @@ export default function Index() {
             px={{ md: '8' }}
             key={idx}
           >
+            <Button
+              as={Link}
+              to={`/set-menus/${entry[Object.keys(entry)[0]][0].set_menu_id}`}
+              colorScheme="teal"
+              variant="outline"
+            >
+              수정
+            </Button>
             <Card maxW="3xl" mx="auto">
               <CardHeader title={Object.keys(entry)[0]} />
               <CardContent>
                 <>
                   {Object.values(entry)[0].map((recipe, idx) => {
-                    const recipeRaw = Object.values(recipe)[1];
+                    const recipeRaw = Object.values(recipe)[3];
+                    console.log('recipes', Object.values(recipe));
                     totalRaw = totalRaw + recipeRaw;
                     return (
                       <Property
                         key={`${idx}-${recipe.name}`}
-                        label={`${recipe.name}(${Object.values(recipe)[2]})`}
+                        label={`${recipe.name}(${Object.values(recipe)[4]})`}
                         value={recipeRaw}
                       />
                     );

@@ -17,6 +17,7 @@ export const action = async ({ request }) => {
     }
   });
   await createSetMenu({
+    id: null,
     name,
     recipeIds,
     recipeQuantities,
@@ -41,7 +42,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe1Quantity">
-          한번 생산시 들어가는 재료1의 용량:{' '}
+          한번 생산시 들어가는 레시피1의 갯수:{' '}
           <Input type="number" id="recipe1Quantity" name="recipe1Quantity" />
         </FormLabel>
         <FormLabel>
@@ -57,7 +58,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe2Quantity">
-          한번 생산시 들어가는 재료2의 용량:{' '}
+          한번 생산시 들어가는 레시피2의 갯수:{' '}
           <Input type="number" id="recipe2Quantity" name="recipe2Quantity" />
         </FormLabel>
         <FormLabel>
@@ -73,7 +74,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe3Quantity">
-          한번 생산시 들어가는 재료3의 용량:{' '}
+          한번 생산시 들어가는 레시피3의 갯수:{' '}
           <Input type="number" id="recipe3Quantity" name="recipe3Quantity" />
         </FormLabel>
         <FormLabel>
@@ -89,7 +90,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe4Quantity">
-          한번 생산시 들어가는 재료4 용량:{' '}
+          한번 생산시 들어가는 레시피4 갯수:{' '}
           <Input type="number" id="recipe4Quantity" name="recipe4Quantity" />
         </FormLabel>
         <FormLabel>
@@ -105,7 +106,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe5Quantity">
-          한번 생산시 들어가는 재료5의 용량:{' '}
+          한번 생산시 들어가는 레시피5의 갯수:{' '}
           <Input type="number" id="recipe5Quantity" name="recipe5Quantity" />
         </FormLabel>
         <FormLabel>
@@ -121,7 +122,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe6Quantity">
-          한번 생산시 들어가는 재료6의 용량:{' '}
+          한번 생산시 들어가는 레시피6의 갯수:{' '}
           <Input type="number" id="recipe6Quantity" name="recipe6Quantity" />
         </FormLabel>
         <FormLabel>
@@ -137,7 +138,7 @@ export default function NewSetMenu() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="recipe7Quantity">
-          한번 생산시 들어가는 재료7의 용량:{' '}
+          한번 생산시 들어가는 레시피7의 갯수:{' '}
           <Input type="number" id="recipe17uantity" name="recipe7Quantity" />
         </FormLabel>
         <FormLabel>
