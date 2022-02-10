@@ -50,7 +50,6 @@ export default function Index() {
     <Flex flexFlow="wrap" justify="space-around">
       {data.map((entry, idx) => {
         let totalRaw = 0;
-        console.log('entry', entry);
         return (
           <Box
             minW="400px"
@@ -74,7 +73,6 @@ export default function Index() {
                 <>
                   {Object.values(entry)[0].map((recipe, idx) => {
                     const recipeRaw = Object.values(recipe)[3];
-                    console.log('recipes', Object.values(recipe));
                     totalRaw = totalRaw + recipeRaw;
                     return (
                       <Property

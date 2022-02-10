@@ -41,28 +41,33 @@ export async function createRecipe(recipe) {
 }
 
 export async function createSetMenu(setMenu) {
-  const { id, name, recipeIds, setMenuRecipeIds, recipeQuantities } = setMenu;
-  console.log(id);
-  const { data, error } = await supabase
-    .from('set_menus')
-    .upsert([
-      {
-        ...(id && { id }),
-        name,
-      },
-    ])
-    .single();
+  try {
+    const { id, name, recipeIds, setMenuRecipeIds, recipeQuantities } = setMenu;
+    const { data, error } = await supabase
+      .from('set_menus')
+      .upsert([
+        {
+          ...(id && { id }),
+          name,
+        },
+      ])
+      .single();
 
-  console.log(data);
-  const recipes = recipeIds.map((reci, idx) => {
-    return {
-      set_menu_id: data.id,
-      recipe_id: reci,
-      ...(setMenuRecipeIds && { id: setMenuRecipeIds[idx] }),
-      quantity: recipeQuantities[idx],
-    };
-  });
-  await supabase.from('set_menus_recipes').upsert(recipes);
+    const recipes = setMenuRecipeIds.map((setMenuReciId, idx) => {
+      return {
+        ...(setMenuReciId && { id: setMenuReciId }),
+        set_menu_id: data.id,
+        recipe_id: recipeIds[idx],
+        quantity: recipeQuantities[idx],
+      };
+    });
+    const updateRecipes = recipes.filter((re) => re.id);
+    const newRecipes = recipes.filter((re) => !re.id);
+    await supabase.from('set_menus_recipes').upsert(updateRecipes);
+    await supabase.from('set_menus_recipes').insert(newRecipes);
+  } catch (erro) {
+    console.log(erro);
+  }
   return null;
 }
 
