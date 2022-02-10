@@ -18,7 +18,7 @@ export const CardHeader = (props: Props) => {
     >
       <Heading fontSize="lg">{title}</Heading>
       {action?.map((item, id) => (
-        <React.Fragment key={id}></React.Fragment>
+        <React.Fragment key={id}>{item}</React.Fragment>
       ))}
     </Flex>
   );
