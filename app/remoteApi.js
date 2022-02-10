@@ -52,19 +52,29 @@ export async function createSetMenu(setMenu) {
         },
       ])
       .single();
-
-    const recipes = setMenuRecipeIds.map((setMenuReciId, idx) => {
-      return {
-        ...(setMenuReciId && { id: setMenuReciId }),
-        set_menu_id: data.id,
-        recipe_id: recipeIds[idx],
-        quantity: recipeQuantities[idx],
-      };
-    });
-    const updateRecipes = recipes.filter((re) => re.id);
-    const newRecipes = recipes.filter((re) => !re.id);
-    await supabase.from('set_menus_recipes').upsert(updateRecipes);
-    await supabase.from('set_menus_recipes').insert(newRecipes);
+    if (setMenuRecipeIds) {
+      const recipes = setMenuRecipeIds.map((setMenuReciId, idx) => {
+        return {
+          ...(setMenuReciId && { id: setMenuReciId }),
+          set_menu_id: data.id,
+          recipe_id: recipeIds[idx],
+          quantity: recipeQuantities[idx],
+        };
+      });
+      const updateRecipes = recipes.filter((re) => re.id);
+      const newRecipes = recipes.filter((re) => !re.id);
+      await supabase.from('set_menus_recipes').upsert(updateRecipes);
+      await supabase.from('set_menus_recipes').insert(newRecipes);
+    } else {
+      const recipes = recipeIds.map((reci, idx) => {
+        return {
+          set_menu_id: data.id,
+          recipe_id: reci,
+          quantity: recipeQuantities[idx],
+        };
+      });
+      await supabase.from('set_menus_recipes').insert(recipes);
+    }
   } catch (erro) {
     console.log(erro);
   }
