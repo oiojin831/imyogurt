@@ -37,17 +37,25 @@ export default function Index() {
             <CardHeader
               title={entry.name}
               action={
-                <form action={`/ingredients/${entry.id}`} method="post">
-                  <input type="hidden" name="_method" value="delete" />
-                  <Button
-                    type="submit"
-                    variant="outline"
-                    minW="20"
-                    leftIcon={<HiPencilAlt />}
-                  >
-                    DELETE
-                  </Button>
-                </form>
+                // <form action={`/ingredients/${entry.id}`} method="post">
+                //   <input type="hidden" name="_method" value="delete" />
+                //   <Button
+                //     type="submit"
+                //     variant="outline"
+                //     minW="20"
+                //     leftIcon={<HiPencilAlt />}
+                //   >
+                //     DELETE
+                //   </Button>
+                // </form>
+                <Button
+                  as={Link}
+                  to={`/ingredients/${entry.id}`}
+                  colorScheme="teal"
+                  variant="outline"
+                >
+                  수정
+                </Button>
               }
             />
             <CardContent>
