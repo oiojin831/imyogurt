@@ -3,7 +3,7 @@ import * as React from 'react';
 
 interface Props {
   title: string;
-  action?: React.ReactNode;
+  action?: Array<React.ReactNode>;
 }
 
 export const CardHeader = (props: Props) => {
@@ -17,7 +17,9 @@ export const CardHeader = (props: Props) => {
       borderBottomWidth="1px"
     >
       <Heading fontSize="lg">{title}</Heading>
-      {action}
+      {action?.map((item, id) => (
+        <React.Fragment key={id}></React.Fragment>
+      ))}
     </Flex>
   );
 };

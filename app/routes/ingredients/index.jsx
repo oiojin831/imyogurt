@@ -2,7 +2,7 @@ import React from 'react';
 import { useLoaderData, Link } from 'remix';
 import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
 import { supabase } from '../../libs/supabase.js';
-import { HiPencilAlt } from 'react-icons/hi';
+import DeleteAlert from '../../components/Alert/index.js';
 import {
   Card,
   CardHeader,
@@ -15,8 +15,6 @@ export const loader = async () => {
     .from('ingredients')
     .select('id, name, price, volume');
 
-  // We can pick and choose what we want to display
-  // This can solve the issue of over-fetching or under-fetching
   return ingredients;
 };
 
@@ -36,27 +34,19 @@ export default function Index() {
           <Card maxW="3xl" mx="auto">
             <CardHeader
               title={entry.name}
-              action={
-                // <form action={`/ingredients/${entry.id}`} method="post">
-                //   <input type="hidden" name="_method" value="delete" />
-                //   <Button
-                //     type="submit"
-                //     variant="outline"
-                //     minW="20"
-                //     leftIcon={<HiPencilAlt />}
-                //   >
-                //     DELETE
-                //   </Button>
-                // </form>
+              action={[
                 <Button
                   as={Link}
                   to={`/ingredients/${entry.id}`}
-                  colorScheme="teal"
                   variant="outline"
                 >
                   수정
-                </Button>
-              }
+                </Button>,
+                <DeleteAlert
+                  title="ingredient"
+                  url={`/ingredients/${entry.id}`}
+                />,
+              ]}
             />
             <CardContent>
               <Property label="구매 가격" value={`${entry.price}원`} />
