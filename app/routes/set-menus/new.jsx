@@ -10,7 +10,7 @@ export const action = async ({ request }) => {
   const name = formData.get('name');
   const recipeIds = [];
   const recipeQuantities = [];
-  [0, 1, 2, 3, 4].forEach((idx) => {
+  [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((idx) => {
     if (formData.get(`recipe${idx}`) !== null) {
       recipeIds.push(formData.get(`recipe${idx}`));
       recipeQuantities.push(formData.get(`recipe${idx}Quantity`));
@@ -139,11 +139,43 @@ export default function NewSetMenu() {
       <Flex>
         <FormLabel htmlFor="recipe7Quantity">
           한번 생산시 들어가는 레시피7의 갯수:{' '}
-          <Input type="number" id="recipe17uantity" name="recipe7Quantity" />
+          <Input type="number" id="recipe7uantity" name="recipe7Quantity" />
         </FormLabel>
         <FormLabel>
           레시피7
           <Select placeholder="Select option" name="recipe7">
+            {data.map((d, idx) => (
+              <option key={`${d.id}-${idx}`} value={d.id}>
+                {d.name}
+              </option>
+            ))}
+          </Select>
+        </FormLabel>
+      </Flex>
+      <Flex>
+        <FormLabel htmlFor="recipe8Quantity">
+          한번 생산시 들어가는 레시피8의 갯수:{' '}
+          <Input type="number" id="recipe8uantity" name="recipe8Quantity" />
+        </FormLabel>
+        <FormLabel>
+          레시피8
+          <Select placeholder="Select option" name="recipe8">
+            {data.map((d, idx) => (
+              <option key={`${d.id}-${idx}`} value={d.id}>
+                {d.name}
+              </option>
+            ))}
+          </Select>
+        </FormLabel>
+      </Flex>
+      <Flex>
+        <FormLabel htmlFor="recipe9Quantity">
+          한번 생산시 들어가는 레시피9의 갯수:{' '}
+          <Input type="number" id="recipe9uantity" name="recipe9Quantity" />
+        </FormLabel>
+        <FormLabel>
+          레시피9
+          <Select placeholder="Select option" name="recipe9">
             {data.map((d, idx) => (
               <option key={`${d.id}-${idx}`} value={d.id}>
                 {d.name}

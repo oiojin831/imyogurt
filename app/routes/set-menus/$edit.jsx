@@ -13,7 +13,7 @@ export const action = async ({ request }) => {
   const recipeIds = [];
   const setMenuRecipeIds = [];
   const recipeQuantities = [];
-  [0, 1, 2, 3, 4].forEach((idx) => {
+  [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((idx) => {
     if (formData.get(`recipe${idx}`) !== null) {
       recipeIds.push(formData.get(`recipe${idx}`));
       setMenuRecipeIds.push(formData.get(`setMenuRecipe${idx}`));
@@ -277,7 +277,7 @@ export default function NewSetMenu() {
           한번 생산시 들어가는 재료7의 용량:{' '}
           <Input
             type="number"
-            id="recipe17uantity"
+            id="recipe7uantity"
             name="recipe7Quantity"
             defaultValue={set_menu[6]?.quantity}
           />
@@ -290,6 +290,70 @@ export default function NewSetMenu() {
                 key={`${d.id}-${idx}`}
                 value={d.id}
                 selected={d.id === set_menu[6]?.recipe_id}
+              >
+                {d.name}
+              </option>
+            ))}
+          </Select>
+        </FormLabel>
+      </Flex>
+      <Flex>
+        <Input
+          hidden={true}
+          type="number"
+          name="setMenuRecipe8"
+          id="setMenuRecipe8"
+          defaultValue={set_menu[7]?.set_menu_recipe_id}
+        />
+        <FormLabel htmlFor="recipe8Quantity">
+          한번 생산시 들어가는 재료8의 용량:{' '}
+          <Input
+            type="number"
+            id="recipe8uantity"
+            name="recipe8Quantity"
+            defaultValue={set_menu[7]?.quantity}
+          />
+        </FormLabel>
+        <FormLabel>
+          레시피8
+          <Select placeholder="Select option" name="recipe8">
+            {recipes.map((d, idx) => (
+              <option
+                key={`${d.id}-${idx}`}
+                value={d.id}
+                selected={d.id === set_menu[6]?.recipe_id}
+              >
+                {d.name}
+              </option>
+            ))}
+          </Select>
+        </FormLabel>
+      </Flex>
+      <Flex>
+        <Input
+          hidden={true}
+          type="number"
+          name="setMenuRecipe9"
+          id="setMenuRecipe9"
+          defaultValue={set_menu[8]?.set_menu_recipe_id}
+        />
+        <FormLabel htmlFor="recipe9Quantity">
+          한번 생산시 들어가는 재료9의 용량:{' '}
+          <Input
+            type="number"
+            id="recipe9uantity"
+            name="recipe9Quantity"
+            defaultValue={set_menu[8]?.quantity}
+          />
+        </FormLabel>
+        <FormLabel>
+          레시피9
+          <Select placeholder="Select option" name="recipe9">
+            {recipes.map((d, idx) => (
+              <option
+                key={`${d.id}-${idx}`}
+                value={d.id}
+                selected={d.id === set_menu[8]?.recipe_id}
               >
                 {d.name}
               </option>
