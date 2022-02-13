@@ -6,9 +6,7 @@ import { FormLabel, Flex, Button, Input } from '@chakra-ui/react';
 import React from 'react';
 
 export const action = async ({ request }) => {
-  console.log('action');
   const formData = await request.formData();
-  console.log('recipe4', formData.get('recipe4'));
   let { _action, ...values } = Object.fromEntries(formData);
 
   const name = formData.get('name');

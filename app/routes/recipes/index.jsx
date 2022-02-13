@@ -25,7 +25,6 @@ import { supabase } from '../../libs/supabase.js';
 
 export const loader = async () => {
   let { data, error } = await supabase.rpc('one_batch_recipe');
-  console.log(data.map((a) => a.batch_volume));
 
   result = data.reduce(function (newData, ele) {
     const { recipe_name, ...rest } = ele;

@@ -1,6 +1,30 @@
 import { supabase } from './libs/supabase';
 
-export async function createIngredient(ingredient) {
+export type Ingredient = {
+  name: string;
+  price: number;
+  volume: number;
+}
+
+type Recipe = {
+  name: string;
+  // price,
+  unitVolume: number;
+  totalVolume: number;
+  ingredientIds: Array<number>;
+  ingredientVolumes: Array<number>;
+}
+
+type SetMenu = {
+  id: number;
+  name: string;
+  recipeIds: Array<number>;
+  setMenuRecipeIds: Array<number>;
+  recipeQuantities: Array<number> ;
+}
+
+
+export async function createIngredient(ingredient: Ingredient) {
   const { name, price, volume } = ingredient;
   const { data, error } = await supabase
     .from('ingredients')
@@ -9,7 +33,7 @@ export async function createIngredient(ingredient) {
   return null;
 }
 
-export async function createRecipe(recipe) {
+export async function createRecipe(recipe: Recipe) {
   const {
     name,
     // price,
@@ -23,8 +47,8 @@ export async function createRecipe(recipe) {
     .insert([
       {
         name,
-        /*price,*/ unit_volume: parseInt(unitVolume),
-        total_volume: parseInt(totalVolume),
+        /*price,*/ unit_volume: unitVolume,
+        total_volume: totalVolume,
       },
     ])
     .single();
@@ -40,7 +64,7 @@ export async function createRecipe(recipe) {
   return null;
 }
 
-export async function createSetMenu(setMenu) {
+export async function createSetMenu(setMenu: SetMenu) {
   try {
     const { id, name, recipeIds, setMenuRecipeIds, recipeQuantities } = setMenu;
     const { data, error } = await supabase
@@ -81,6 +105,4 @@ export async function createSetMenu(setMenu) {
   return null;
 }
 
-export async function duplicateSetMenu(setMenu) {
-  console.log('hh');
-}
+//export async function duplicateSetMenu(setMenu) {}

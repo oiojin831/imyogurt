@@ -59,7 +59,6 @@ export const loader = async () => {
       ...items,
     });
   }
-  console.log('newarr', newArr);
 
   if (error) console.log('error', error);
   // We can pick and choose what we want to display
@@ -229,7 +228,6 @@ function DataTable() {
                 <div key={column.id}>
                   <label>
                     <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                    {console.log(column.getToggleHiddenProps())}
                     {column.id}
                   </label>
                 </div>

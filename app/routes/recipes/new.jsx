@@ -39,7 +39,6 @@ export const loader = async ({ request }) => {
 
 export default function NewRecipe() {
   const data = useLoaderData();
-  console.log(data);
   return (
     <Form method="post">
       <Flex>
