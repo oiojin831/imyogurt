@@ -72,6 +72,12 @@ const Shell = (props: {
               <SidebarLink to="ingredients" icon={<BsFillInboxFill />}>
                 재료
               </SidebarLink>
+              <SidebarLink
+                to="ingredients/calculator"
+                icon={<BsFillInboxFill />}
+              >
+                재료 계산기
+              </SidebarLink>
               <SidebarLink to="/recipes" icon={<BsFillBookmarksFill />}>
                 레시피
               </SidebarLink>

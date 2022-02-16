@@ -82,27 +82,11 @@ function DataTable() {
         minWidth: 100,
         accessor: 'name',
       },
-      // {
-      //   Header: '판매가',
-      //   minWidth: 100,
-      //   accessor: 'unitPrice',
-      // },
       {
         Header: '총원가',
         minWidth: 120,
         accessor: 'sumPrice',
       },
-      // {
-      //   Header: '비율',
-      //   minWidth: 100,
-      //   accessor: 'priceRatio',
-      //   Cell: (props) => <div>{props.value + '%'} </div>,
-      // },
-      // {
-      //   Header: '마지노선(20~30%)',
-      //   minWidth: 100,
-      //   accessor: 'priceRange',
-      // },
       {
         Header: '적정판매가',
         minWidth: 100,
