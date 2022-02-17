@@ -72,12 +72,6 @@ const Shell = (props: {
               <SidebarLink to="ingredients" icon={<BsFillInboxFill />}>
                 재료
               </SidebarLink>
-              <SidebarLink
-                to="ingredients/calculator"
-                icon={<BsFillInboxFill />}
-              >
-                재료 계산기
-              </SidebarLink>
               <SidebarLink to="/recipes" icon={<BsFillBookmarksFill />}>
                 레시피
               </SidebarLink>
@@ -122,7 +116,6 @@ const Shell = (props: {
             <Flex direction="column" flex="1" overflow="auto" px="10" pt="8">
               <Heading size="md" fontWeight="extrabold" mb="6">
                 <Flex direction="row" justify="space-between">
-                  {location.pathname.substring(1).toUpperCase()}
                   <Button
                     as={Link}
                     to={`${location.pathname}/new`}

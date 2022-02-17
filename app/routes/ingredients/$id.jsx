@@ -5,7 +5,7 @@ import { supabase } from '../../libs/supabase.js';
 export const loader = async ({ params }) => {
   const { data, error } = await supabase
     .from('ingredients')
-    .select('id, name, price, volume')
+    .select('id, name, price, volume, buying_volume, category')
     .eq('id', params.id)
     .single();
   if (!data) {
@@ -21,7 +21,7 @@ export const action = async ({ request, params }) => {
   if (form.get('_method') === 'delete') {
     const { data, error } = await supabase
       .from('ingredients')
-      .select('id, name, price, volume')
+      .select('id, name, price, volume, buying_volume, category')
       .eq('id', params.id);
     if (!data) {
       throw new Response("Can't delete what does not exist", { status: 404 });
@@ -34,6 +34,7 @@ export const action = async ({ request, params }) => {
         price: form.get('ingredientPrice'),
         volume: form.get('ingredientVolume'),
         name: form.get('ingredientName'),
+        buygin_volume: form.get('buyingVolume'),
       })
       .match({ id: params.id });
   }
@@ -72,6 +73,24 @@ export default function IngredientRoute() {
             id="ingredientVolume"
             name="ingredientVolume"
             defaultValue={data.volume}
+          />
+        </FormLabel>
+        <FormLabel htmlFor="category">
+          카테고리
+          <Input
+            type="text"
+            id="category"
+            name="category"
+            defaultValue={data.category}
+          />
+        </FormLabel>
+        <FormLabel htmlFor="buyingVolume">
+          원가 계산용 용량 기본값
+          <Input
+            type="number"
+            id="buyingVolume"
+            name="buyingVolume"
+            defaultValue={data.buying_volume}
           />
         </FormLabel>
         <Button type="submit" name="_action" value="update">
