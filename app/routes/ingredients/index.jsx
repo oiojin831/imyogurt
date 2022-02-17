@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link, useLoaderData, useSearchParams, Form } from 'remix';
-import { supabase } from '../../libs/supabase.js';
+import React from "react";
+import { Link, useLoaderData, useSearchParams, Form } from "remix";
+import { supabase } from "../../libs/supabase.js";
 import {
   FormControl,
   FormLabel,
@@ -13,35 +13,33 @@ import {
   InputGroup,
   InputRightElement,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { FiSearch } from 'react-icons/fi';
+} from "@chakra-ui/react";
+import { FiSearch } from "react-icons/fi";
 
-import DeleteAlert from '../../components/Alert/index.js';
+import DeleteAlert from "../../components/Alert/index.js";
 import {
   Card,
   CardHeader,
   CardContent,
   Property,
-} from '../../components/Card/';
+} from "../../components/Card/";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
   const search = new URLSearchParams(url.search);
   let data;
-  if (search.get('query')) {
+  if (search.get("query")) {
     const ingredients = await supabase
-      .from('ingredients')
+      .from("ingredients")
       .select()
-      .textSearch('name', `'${search.get('query')}'`);
+      .textSearch("name", `'${search.get("query")}'`);
     data = ingredients.data;
   } else {
     const ingredients = await supabase
-      .from('ingredients')
-      .select('id, name, price, volume, category, buying_volume');
-    console.log(ingredients);
+      .from("ingredients")
+      .select("id, name, price, volume, category, buying_volume");
     data = ingredients.data;
   }
-  console.log(data);
 
   return data;
 };
@@ -61,15 +59,15 @@ export default function Calculator() {
       <VStack
         justify="center"
         flex="1"
-        w={{ base: 'full', md: 'auto' }}
-        spacing={{ base: '2', md: '4' }}
+        w={{ base: "full", md: "auto" }}
+        spacing={{ base: "2", md: "4" }}
         my={4}
       >
         <Form>
           <Button onClick={() => setSort((prev) => !prev)}>
             이름순으로 정렬
           </Button>
-          <InputGroup maxW={{ md: '80' }} w="full">
+          <InputGroup maxW={{ md: "80" }} w="full">
             <InputRightElement color="gray.400">
               <FiSearch />
             </InputRightElement>
@@ -78,14 +76,14 @@ export default function Calculator() {
               id="query"
               name="query"
               placeholder="Search ingredient..."
-              defaultValue={params.get('query')}
+              defaultValue={params.get("query")}
             />
           </InputGroup>
         </Form>
       </VStack>
       <Flex flexFlow="wrap" justify="space-around">
         {data.map((entry) => (
-          <Box minW="280px" as="section" py="4" px={{ md: '8' }} key={entry.id}>
+          <Box minW="280px" as="section" py="4" px={{ md: "8" }} key={entry.id}>
             <Card maxW="3xl" mx="auto">
               <CardHeader
                 title={entry.name}

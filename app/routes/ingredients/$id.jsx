@@ -1,15 +1,15 @@
-import { Form, useLoaderData, useCatch, redirect, useParams } from 'remix';
-import { Flex, Box, FormLabel, Input, Button } from '@chakra-ui/react';
-import { supabase } from '../../libs/supabase.js';
+import { Form, useLoaderData, useCatch, redirect, useParams } from "remix";
+import { Flex, Box, FormLabel, Input, Button } from "@chakra-ui/react";
+import { supabase } from "../../libs/supabase.js";
 
 export const loader = async ({ params }) => {
   const { data, error } = await supabase
-    .from('ingredients')
-    .select('id, name, price, volume, buying_volume, category')
-    .eq('id', params.id)
+    .from("ingredients")
+    .select("id, name, price, volume, buying_volume, category")
+    .eq("id", params.id)
     .single();
   if (!data) {
-    throw new Response('What a joke! Not found.', {
+    throw new Response("What a joke! Not found.", {
       status: 404,
     });
   }
@@ -18,27 +18,29 @@ export const loader = async ({ params }) => {
 
 export const action = async ({ request, params }) => {
   const form = await request.formData();
-  if (form.get('_method') === 'delete') {
+  if (form.get("_method") === "delete") {
     const { data, error } = await supabase
-      .from('ingredients')
-      .select('id, name, price, volume, buying_volume, category')
-      .eq('id', params.id);
+      .from("ingredients")
+      .select("id, name, price, volume, buying_volume, category")
+      .eq("id", params.id);
     if (!data) {
       throw new Response("Can't delete what does not exist", { status: 404 });
     }
-    await supabase.from('ingredients').delete().eq('id', params.id);
+    await supabase.from("ingredients").delete().eq("id", params.id);
   } else {
+    console.log(form.get("buyingVolume"));
     const { data, error } = await supabase
-      .from('ingredients')
+      .from("ingredients")
       .update({
-        price: form.get('ingredientPrice'),
-        volume: form.get('ingredientVolume'),
-        name: form.get('ingredientName'),
-        buygin_volume: form.get('buyingVolume'),
+        price: form.get("ingredientPrice"),
+        volume: form.get("ingredientVolume"),
+        name: form.get("ingredientName"),
+        category: form.get("category"),
+        buying_volume: form.get("buyingVolume"),
       })
       .match({ id: params.id });
   }
-  return redirect('/ingredients');
+  return redirect("/ingredients");
 };
 
 export default function IngredientRoute() {
