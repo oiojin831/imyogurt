@@ -10,9 +10,18 @@ import {
 import { Logo } from "./Logo";
 import { SideBar } from "./SideBar";
 import { ToggleButton } from "./ToggleButton";
+import usePrev from "../../hooks/usePrev";
+import { useEffect } from "react";
 
-export const NavBar = () => {
+export const NavBar = ({ location }: { location?: string }) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const prevLocation = usePrev(location ? location : "");
+  useEffect(() => {
+    if (prevLocation !== location) {
+      onClose();
+    }
+  }, [location]);
+
   return (
     <Box
       width="full"

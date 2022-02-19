@@ -3,7 +3,13 @@ import * as React from "react";
 import { NavBar } from "./NavBar";
 import { SideBar } from "./SideBar";
 
-export const Shell = ({ children }: { children: React.ReactNode }) => {
+export const Shell = ({
+  children,
+  location,
+}: {
+  children: React.ReactNode;
+  location?: string;
+}) => {
   const [mounted, setMounted] = React.useState(false);
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
@@ -19,7 +25,7 @@ export const Shell = ({ children }: { children: React.ReactNode }) => {
       bg="bg-canvas"
       overflowY="auto"
     >
-      {mounted && isDesktop ? <SideBar /> : <NavBar />}
+      {mounted && isDesktop ? <SideBar /> : <NavBar location={location} />}
       <Box bg="bg-surface" pt={{ base: "0", lg: "3" }} flex="1">
         <Box
           bg="bg-canvas"

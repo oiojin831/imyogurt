@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLocation,
 } from "remix";
 import type { MetaFunction } from "remix";
 import React from "react";
@@ -149,9 +150,10 @@ const Document = withEmotionCache(
 );
 
 export default function App() {
+  const location = useLocation();
   return (
     <Document>
-      <Shell>
+      <Shell location={location.key}>
         <Outlet />
       </Shell>
     </Document>
