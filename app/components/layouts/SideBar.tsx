@@ -1,4 +1,10 @@
-import { Flex, Stack, useColorModeValue, useColorMode } from "@chakra-ui/react";
+import {
+  Flex,
+  Stack,
+  useColorModeValue,
+  useColorMode,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { getColor } from "@chakra-ui/theme-tools";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Switch } from "../switch";
@@ -6,10 +12,17 @@ import { FiBarChart2, FiBookmark, FiCheckSquare, FiHome } from "react-icons/fi";
 import { Logo } from "./Logo";
 import { NavButton } from "./NavButton";
 import { useTheme } from "@emotion/react";
+import * as React from "react";
 
 export const SideBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const theme = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+  const isDesktop = useBreakpointValue({ base: false, lg: true });
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <Flex as="section" minH="100vh" bg="bg-canvas">
       <Flex
@@ -29,19 +42,13 @@ export const SideBar = () => {
               <NavButton to="/ingredients" label="재료" icon={FiCheckSquare} />
               <NavButton to="/recipes" label="레시피" icon={FiBookmark} />
               <NavButton to="/prices" label="원가" icon={FiBarChart2} />
-            </Stack>
-          </Stack>
-          <Stack spacing={{ base: "5", sm: "6" }}>
-            <Stack spacing="1">
-              <NavButton label="mode">
-                <Switch
-                  aria-label="Toggle color mode"
-                  leftIcon={<FaMoon color={getColor(theme, "yellow.400")} />}
-                  rightIcon={<FaSun color={getColor(theme, "orange.300")} />}
-                  isChecked={colorMode === "dark"}
-                  onChange={() => toggleColorMode()}
-                />
-              </NavButton>
+              <Switch
+                aria-label="Toggle color mode"
+                leftIcon={<FaMoon color={getColor(theme, "yellow.400")} />}
+                rightIcon={<FaSun color={getColor(theme, "orange.300")} />}
+                isChecked={colorMode === "dark"}
+                onChange={() => toggleColorMode()}
+              />
             </Stack>
           </Stack>
         </Stack>
