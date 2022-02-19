@@ -12,17 +12,11 @@ import { FiBarChart2, FiBookmark, FiCheckSquare, FiHome } from "react-icons/fi";
 import { Logo } from "./Logo";
 import { NavButton } from "./NavButton";
 import { useTheme } from "@emotion/react";
-import * as React from "react";
 
 export const SideBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const theme = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-  const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
   return (
     <Flex as="section" minH="100vh" bg="bg-canvas">
       <Flex
