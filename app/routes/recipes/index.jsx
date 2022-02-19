@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLoaderData, Link } from 'remix';
+import React from "react";
+import { useLoaderData, Link } from "remix";
 import {
   Flex,
   Table,
@@ -10,21 +10,20 @@ import {
   Th,
   Td,
   chakra,
-  Button,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-} from '@chakra-ui/react';
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { useTable, useSortBy } from 'react-table';
-import { supabase } from '../../libs/supabase.js';
+} from "@chakra-ui/react";
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { useTable, useSortBy } from "react-table";
+import { supabase } from "../../libs/supabase.js";
 
 export const loader = async () => {
-  let { data, error } = await supabase.rpc('one_batch_recipe');
+  let { data, error } = await supabase.rpc("one_batch_recipe");
 
   result = data.reduce(function (newData, ele) {
     const { recipe_name, ...rest } = ele;
@@ -36,8 +35,8 @@ export const loader = async () => {
   const newArr = [];
   for (const [key, value] of Object.entries(result)) {
     const items = value.reduce((prev, v, idx) => {
-      prev['unitVolume'] = v.unit_volume.toFixed(2);
-      prev['totalVolume'] = v.total_volume?.toFixed(2);
+      prev["unitVolume"] = v.unit_volume.toFixed(2);
+      prev["totalVolume"] = v.total_volume?.toFixed(2);
       prev[`item${idx + 1}Name`] = v.ingredient_name;
       prev[`item${idx + 1}BatchVolume`] = v.batch_volume?.toFixed(2);
       return prev;
@@ -48,7 +47,7 @@ export const loader = async () => {
     });
   }
 
-  if (error) console.log('error', error);
+  if (error) console.log("error", error);
   // We can pick and choose what we want to display
   // This can solve the issue of over-fetching or under-fetching
   return newArr;
@@ -66,21 +65,21 @@ function DataTable() {
   const columns = React.useMemo(
     () => [
       {
-        Header: '이름',
+        Header: "이름",
         minWidth: 100,
-        accessor: 'name',
+        accessor: "name",
       },
       ...[1, 2, 3, 4, 5].map((num) => {
         return {
           Header: `재료${num}`,
           columns: [
             {
-              Header: '이름',
+              Header: "이름",
               id: `item${num}-name`,
               accessor: `item${num}Name`,
             },
             {
-              Header: '재료 용량',
+              Header: "재료 용량",
               id: `item${num}-batch-volume`,
               accessor: `item${num}BatchVolume`,
             },
@@ -88,11 +87,11 @@ function DataTable() {
         };
       }),
       {
-        Header: '상품 1개 용량',
+        Header: "상품 1개 용량",
         accessor: `unitVolume`,
       },
       {
-        Header: '레시피 총생산 용량',
+        Header: "레시피 총생산 용량",
         accessor: `totalVolume`,
       },
     ],
@@ -124,13 +123,13 @@ function DataTable() {
             </h2>
             <AccordionPanel pb={4}>
               <div>
-                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />{' '}
+                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />{" "}
                 Toggle All
               </div>
               {allColumns.map((column) => (
                 <div key={column.id}>
                   <label>
-                    <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                    <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
                     {column.id}
                   </label>
                 </div>
@@ -150,7 +149,7 @@ function DataTable() {
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   isNumeric={column.isNumeric}
                 >
-                  {column.render('Header')}
+                  {column.render("Header")}
                   <chakra.span pl="4">
                     {column.isSorted ? (
                       column.isSortedDesc ? (
@@ -175,7 +174,7 @@ function DataTable() {
                     {...cell.getCellProps()}
                     isNumeric={cell.column.isNumeric}
                   >
-                    {cell.render('Cell')}
+                    {cell.render("Cell")}
                   </Td>
                 ))}
               </Tr>

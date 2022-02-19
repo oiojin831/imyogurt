@@ -1,6 +1,6 @@
 import { Ingredient } from "~/remoteApi";
-import { getCosts } from "./costs";
-import { getDenormalizedIngredients } from "./utils";
+import { getCosts } from "../costs";
+import { getDenormalizedIngredients } from "../utils";
 
 const ingredientsData = [
   {
