@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLoaderData, Link } from 'remix';
+import React from "react";
+import { useLoaderData, Link } from "remix";
 import {
   Flex,
   Box,
@@ -11,59 +11,21 @@ import {
   Td,
   chakra,
   Button,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-} from '@chakra-ui/react';
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { useTable, useSortBy } from 'react-table';
-import { supabase } from '../../libs/supabase.js';
-const round = Math.round;
+} from "@chakra-ui/react";
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { useTable, useSortBy } from "react-table";
+import { getCosts } from "../../models/costs";
 
 export const loader = async () => {
-  let { data, error } = await supabase.rpc('one_portion_price');
-
-  result = data.reduce(function (newData, ele) {
-    const { name, ...rest } = ele;
-    newData[name] = newData[name] || [];
-    newData[name].push(rest);
-    return newData;
-  }, {});
-
-  const newArr = [];
-  for (const [key, value] of Object.entries(result)) {
-    let sumPrice = 0;
-    const items = value.reduce((prev, v, idx) => {
-      sumPrice = sumPrice + v.raw_price;
-      prev[`item${idx + 1}Name`] = v.ingredient_name;
-      prev[`item${idx + 1}Price`] = v.raw_price.toFixed(2);
-      prev['sumPrice'] = sumPrice.toFixed(2);
-      // prev['unitPrice'] = v.unit_price;
-      // prev['priceRatio'] = ((sumPrice / v.unit_price) * 100).toFixed(2);
-      // unit price는 state로 넣어놓기.
-      // prev['priceRange'] = `${(v.unit_price * 0.2).toFixed(2)} ~ ${(
-      //   v.unit_price * 0.3
-      // ).toFixed(2)}`;
-      prev['fairPriceRange'] = `${round(sumPrice * 3.3333333)},\n${round(
-        sumPrice * 5
-      )},\n${round(sumPrice * 10)}`;
-
-      return prev;
-    }, {});
-    newArr.push({
-      name: key,
-      ...items,
-    });
-  }
-
-  if (error) console.log('error', error);
-  // We can pick and choose what we want to display
-  // This can solve the issue of over-fetching or under-fetching
-  return newArr;
+  const data = getCosts();
+  return data;
 };
 
 export default function Index() {
@@ -78,95 +40,95 @@ function DataTable() {
   const columns = React.useMemo(
     () => [
       {
-        Header: '이름',
+        Header: "이름",
         minWidth: 100,
-        accessor: 'name',
+        accessor: "name",
       },
       {
-        Header: '총원가',
+        Header: "총원가",
         minWidth: 120,
-        accessor: 'sumPrice',
+        accessor: "sumPrice",
       },
       {
-        Header: '적정판매가',
+        Header: "적정판매가",
         minWidth: 100,
-        accessor: 'fairPriceRange',
+        accessor: "fairPriceRange",
       },
       {
-        Header: '재료1',
+        Header: "재료1",
         show: false,
         columns: [
           {
-            Header: '이름',
-            id: 'item1-name',
-            accessor: 'item1Name',
+            Header: "이름",
+            id: "item1-name",
+            accessor: "item1Name",
             show: false,
           },
           {
-            Header: '원가',
-            id: 'item1-price',
-            accessor: 'item1Price',
+            Header: "원가",
+            id: "item1-price",
+            accessor: "item1Price",
           },
         ],
       },
       {
-        Header: '재료2',
+        Header: "재료2",
         show: false,
         columns: [
           {
-            Header: '이름',
-            id: 'item2-name',
-            accessor: 'item2Name',
+            Header: "이름",
+            id: "item2-name",
+            accessor: "item2Name",
           },
           {
-            Header: '원가',
-            id: 'item2-price',
-            accessor: 'item2Price',
-          },
-        ],
-      },
-      {
-        Header: '재료3',
-        columns: [
-          {
-            Header: '이름',
-            id: 'item3-name',
-            accessor: 'item3Name',
-          },
-          {
-            Header: '원가',
-            id: 'item3-price',
-            accessor: 'item3Price',
+            Header: "원가",
+            id: "item2-price",
+            accessor: "item2Price",
           },
         ],
       },
       {
-        Header: '재료4',
+        Header: "재료3",
         columns: [
           {
-            Header: '이름',
-            id: 'item4-name',
-            accessor: 'item4Name',
+            Header: "이름",
+            id: "item3-name",
+            accessor: "item3Name",
           },
           {
-            Header: '원가',
-            id: 'item4-price',
-            accessor: 'item4Price',
+            Header: "원가",
+            id: "item3-price",
+            accessor: "item3Price",
           },
         ],
       },
       {
-        Header: '재료5',
+        Header: "재료4",
         columns: [
           {
-            Header: '이름',
-            id: 'item5-name',
-            accessor: 'item5Name',
+            Header: "이름",
+            id: "item4-name",
+            accessor: "item4Name",
           },
           {
-            Header: '원가',
-            id: 'item5-price',
-            accessor: 'item5Price',
+            Header: "원가",
+            id: "item4-price",
+            accessor: "item4Price",
+          },
+        ],
+      },
+      {
+        Header: "재료5",
+        columns: [
+          {
+            Header: "이름",
+            id: "item5-name",
+            accessor: "item5Name",
+          },
+          {
+            Header: "원가",
+            id: "item5-price",
+            accessor: "item5Price",
           },
         ],
       },
@@ -205,13 +167,13 @@ function DataTable() {
             </h2>
             <AccordionPanel pb={4}>
               <div>
-                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />{' '}
+                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />{" "}
                 Toggle All
               </div>
               {allColumns.map((column) => (
                 <div key={column.id}>
                   <label>
-                    <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                    <input type="checkbox" {...column.getToggleHiddenProps()} />{" "}
                     {column.id}
                   </label>
                 </div>
@@ -231,7 +193,7 @@ function DataTable() {
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   isNumeric={column.isNumeric}
                 >
-                  {column.render('Header')}
+                  {column.render("Header")}
                   <chakra.span pl="4">
                     {column.isSorted ? (
                       column.isSortedDesc ? (
@@ -256,7 +218,7 @@ function DataTable() {
                     {...cell.getCellProps()}
                     isNumeric={cell.column.isNumeric}
                   >
-                    {cell.render('Cell')}
+                    {cell.render("Cell")}
                   </Td>
                 ))}
               </Tr>

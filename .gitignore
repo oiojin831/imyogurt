@@ -6,6 +6,7 @@ node_modules
 .env
 .env.example_remote
 .env.local
+.env.test
 
 public/build
 api/_build
