@@ -8,10 +8,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Logo } from "./Logo";
-import { Sidebar } from "./Sidebar";
+import { SideBar } from "./SideBar";
 import { ToggleButton } from "./ToggleButton";
 
-export const Navbar = () => {
+export const NavBar = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
   return (
     <Box
@@ -39,7 +39,7 @@ export const Navbar = () => {
         >
           <DrawerOverlay />
           <DrawerContent>
-            <Sidebar />
+            <SideBar />
           </DrawerContent>
         </Drawer>
       </Flex>

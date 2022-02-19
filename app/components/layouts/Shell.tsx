@@ -1,7 +1,7 @@
 import { Box, Flex, Stack, useBreakpointValue } from "@chakra-ui/react";
 import * as React from "react";
-import { Navbar } from "./Navbar";
-import { Sidebar } from "./Sidebar";
+import { NavBar } from "./NavBar";
+import { SideBar } from "./SideBar";
 
 export const Shell = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
@@ -19,7 +19,7 @@ export const Shell = ({ children }: { children: React.ReactNode }) => {
       bg="bg-canvas"
       overflowY="auto"
     >
-      {mounted && isDesktop ? <Sidebar /> : <Navbar />}
+      {mounted && isDesktop ? <SideBar /> : <NavBar />}
       <Box bg="bg-surface" pt={{ base: "0", lg: "3" }} flex="1">
         <Box
           bg="bg-canvas"

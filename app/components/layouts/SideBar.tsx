@@ -7,7 +7,7 @@ import { Logo } from "./Logo";
 import { NavButton } from "./NavButton";
 import { useTheme } from "@emotion/react";
 
-export const Sidebar = () => {
+export const SideBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const theme = useTheme();
   return (
