@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  Stack,
-  useBreakpointValue,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Flex, Stack, useBreakpointValue } from "@chakra-ui/react";
 import * as React from "react";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";

@@ -1,32 +1,8 @@
-import { Icon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Progress,
-  Stack,
-  Text,
-  useColorModeValue,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Flex, Stack, useColorModeValue, useColorMode } from "@chakra-ui/react";
 import { getColor } from "@chakra-ui/theme-tools";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Switch } from "../switch";
-import {
-  FiBarChart2,
-  FiBookmark,
-  FiCheckSquare,
-  FiHelpCircle,
-  FiHome,
-  FiSearch,
-  FiSettings,
-  FiUsers,
-} from "react-icons/fi";
+import { FiBarChart2, FiBookmark, FiCheckSquare, FiHome } from "react-icons/fi";
 import { Logo } from "./Logo";
 import { NavButton } from "./NavButton";
 import { useTheme } from "@emotion/react";

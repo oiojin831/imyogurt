@@ -1,5 +1,4 @@
-import { As, Button, ButtonProps, HStack, Icon, Text } from "@chakra-ui/react";
-import * as React from "react";
+import { As, ButtonProps, HStack, Icon, Text } from "@chakra-ui/react";
 import { NavLink as RemixLink } from "remix";
 
 interface NavButtonProps extends ButtonProps {
