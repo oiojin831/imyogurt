@@ -1,4 +1,10 @@
-import { Box, Flex, Stack, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Stack,
+  useBreakpointValue,
+  useDisclosure,
+} from "@chakra-ui/react";
 import * as React from "react";
 import { NavBar } from "./NavBar";
 import { SideBar } from "./SideBar";
@@ -12,6 +18,7 @@ export const Shell = ({
 }) => {
   const [mounted, setMounted] = React.useState(false);
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+  const { isOpen, onToggle, onClose } = useDisclosure();
 
   React.useEffect(() => {
     setMounted(true);
@@ -25,7 +32,11 @@ export const Shell = ({
       bg="bg-canvas"
       overflowY="auto"
     >
-      {mounted && isDesktop ? <SideBar /> : <NavBar location={location} />}
+      {mounted && isDesktop ? (
+        <SideBar onClose={onClose} />
+      ) : (
+        <NavBar isOpen={isOpen} onClose={onClose} onToggle={onToggle} />
+      )}
       <Box bg="bg-surface" pt={{ base: "0", lg: "3" }} flex="1">
         <Box
           bg="bg-canvas"

@@ -3,7 +3,7 @@ import {
   Stack,
   useColorModeValue,
   useColorMode,
-  useBreakpointValue,
+  Box,
 } from "@chakra-ui/react";
 import { getColor } from "@chakra-ui/theme-tools";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -12,8 +12,9 @@ import { FiBarChart2, FiBookmark, FiCheckSquare, FiHome } from "react-icons/fi";
 import { Logo } from "./Logo";
 import { NavButton } from "./NavButton";
 import { useTheme } from "@emotion/react";
+import { Link } from "remix";
 
-export const SideBar = () => {
+export const SideBar = ({ onClose }: any) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const theme = useTheme();
 
@@ -32,10 +33,18 @@ export const SideBar = () => {
           <Stack spacing={{ base: "5", sm: "6" }} shouldWrapChildren>
             <Logo />
             <Stack spacing="1">
-              <NavButton to="/set-menus" label="세트메뉴" icon={FiHome} />
-              <NavButton to="/ingredients" label="재료" icon={FiCheckSquare} />
-              <NavButton to="/recipes" label="레시피" icon={FiBookmark} />
-              <NavButton to="/prices" label="원가" icon={FiBarChart2} />
+              <Link to={"/set-menus"} onClick={() => onClose()}>
+                세트메뉴
+              </Link>
+              <Link onClick={() => onClose()} to="/ingredients">
+                재료
+              </Link>
+              <Link onClick={() => onClose()} to="/recipes">
+                레시피
+              </Link>
+              <Link onClick={() => onClose()} to="/prices">
+                원가
+              </Link>
               <Switch
                 aria-label="Toggle color mode"
                 leftIcon={<FaMoon color={getColor(theme, "yellow.400")} />}

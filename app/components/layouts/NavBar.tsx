@@ -13,15 +13,7 @@ import { ToggleButton } from "./ToggleButton";
 import usePrev from "../../hooks/usePrev";
 import { useEffect } from "react";
 
-export const NavBar = ({ location }: { location?: string }) => {
-  const { isOpen, onToggle, onClose } = useDisclosure();
-  const prevLocation = usePrev(location ? location : "");
-  useEffect(() => {
-    if (prevLocation !== location) {
-      onClose();
-    }
-  }, [location]);
-
+export const NavBar = ({ isOpen, onToggle, onClose }: any) => {
   return (
     <Box
       width="full"
@@ -48,7 +40,7 @@ export const NavBar = ({ location }: { location?: string }) => {
         >
           <DrawerOverlay />
           <DrawerContent>
-            <SideBar />
+            <SideBar onClose={onClose} />
           </DrawerContent>
         </Drawer>
       </Flex>
