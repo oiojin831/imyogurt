@@ -6,7 +6,6 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-  useLocation,
 } from "remix";
 import type { MetaFunction } from "remix";
 import React from "react";
@@ -18,12 +17,14 @@ import {
   Text,
   extendTheme,
 } from "@chakra-ui/react";
+import type { ThemeConfig } from "@chakra-ui/react";
 import { withEmotionCache } from "@emotion/react";
 import ServerStyleContext from "./context.server";
 import ClientStyleContext from "./context.client";
 import { Shell } from "./components/layouts/Shell";
 import { theme } from "@chakra-ui/pro-theme";
 import IconSwitch from "./components/switch/src/theme-icon-switch";
+import "@fontsource/inter/variable.css";
 
 export const meta: MetaFunction = () => {
   return { title: "Remix + Chakra UI App" };
@@ -90,17 +91,10 @@ interface DocumentProps {
   children: React.ReactNode;
   title?: string;
 }
-const myTheme = extendTheme({
-  config: {
-    initialColorMode: "system",
-    useSystemColorMode: false,
-  },
-  components: {
-    IconSwitch,
-  },
-  colors: { ...theme.colors, blue: theme.colors.purple },
-  theme,
-});
+const config: ThemeConfig = {
+  initialColorMode: "system",
+  useSystemColorMode: false,
+};
 
 const Document = withEmotionCache(
   ({ children, title }: DocumentProps, emotionCache) => {
@@ -121,6 +115,16 @@ const Document = withEmotionCache(
       clientStyleData.reset();
     }, []);
 
+    const myTheme = extendTheme(
+      {
+        config,
+        components: {
+          IconSwitch,
+        },
+        colors: { ...theme.colors, brand: theme.colors.purple },
+      },
+      theme
+    );
     return (
       <html lang="en">
         <head>
@@ -150,10 +154,9 @@ const Document = withEmotionCache(
 );
 
 export default function App() {
-  const location = useLocation();
   return (
     <Document>
-      <Shell location={location.key}>
+      <Shell>
         <Outlet />
       </Shell>
     </Document>

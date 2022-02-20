@@ -12,7 +12,6 @@ import {
   VStack,
   InputGroup,
   InputRightElement,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { FiSearch } from "react-icons/fi";
 

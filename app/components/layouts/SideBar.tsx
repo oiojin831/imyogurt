@@ -1,16 +1,8 @@
-import {
-  Flex,
-  Stack,
-  useColorModeValue,
-  useColorMode,
-  Box,
-} from "@chakra-ui/react";
+import { Flex, Stack, useColorModeValue, useColorMode } from "@chakra-ui/react";
 import { getColor } from "@chakra-ui/theme-tools";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Switch } from "../switch";
-import { FiBarChart2, FiBookmark, FiCheckSquare, FiHome } from "react-icons/fi";
 import { Logo } from "./Logo";
-import { NavButton } from "./NavButton";
 import { useTheme } from "@emotion/react";
 import { Link } from "remix";
 

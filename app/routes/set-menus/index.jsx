@@ -1,21 +1,20 @@
-import React from 'react';
-import { useLoaderData, Link } from 'remix';
-import { Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
+import React from "react";
+import { useLoaderData, Link } from "remix";
+import { Box, Button, Flex, useColorModeValue } from "@chakra-ui/react";
 import {
   groupedByName,
   groupedByRecipeName,
-} from '../../components/utils/index.js';
-import { supabase } from '../../libs/supabase.js';
-import { HiPencilAlt } from 'react-icons/hi';
+} from "../../components/utils/index.js";
+import { supabase } from "../../libs/supabase.js";
 import {
   Card,
   CardHeader,
   CardContent,
   Property,
-} from '../../components/Card/';
+} from "../../components/Card/";
 
 export const loader = async () => {
-  const { data } = await supabase.rpc('set_menu_infos');
+  const { data } = await supabase.rpc("set_menu_infos");
 
   const result = groupedByName(data);
   const secondGroup = Object.values(result).map((re) =>
@@ -54,9 +53,9 @@ export default function Index() {
           <Box
             minW="400px"
             as="section"
-            bg={useColorModeValue('gray.100', 'inherit')}
+            bg={useColorModeValue("gray.100", "inherit")}
             py="4"
-            px={{ md: '8' }}
+            px={{ md: "8" }}
             key={idx}
           >
             <Button
