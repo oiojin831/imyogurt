@@ -1,27 +1,55 @@
-import { Ingredient } from "~/remoteApi";
-import { getCosts } from "../costs";
 import { getDenormalizedIngredients } from "../utils";
 
 const ingredientsData = [
   {
-    ingredients: [
-      { name: "요거트 가루", price: 11000, volume: 1000 },
-      { name: "우유", price: 5100, volume: 2300 },
-    ],
     name: "요거트 아이스크림(200)",
-    recipes_ingredients_volume: [{ volume: 1000 }, { volume: 4000 }],
-    total_volume: 4000,
     unit_volume: 200,
+    total_volume: 4000,
+    ingredients: [
+      {
+        volume: 1000,
+        detail: {
+          id: 3,
+          name: "요거트 가루",
+          price: 11000,
+          volume: 1000,
+        },
+      },
+      {
+        volume: 4000,
+        detail: {
+          id: 4,
+          name: "우유",
+          price: 5100,
+          volume: 2300,
+        },
+      },
+    ],
   },
   {
-    ingredients: [
-      { name: "요거트 가루", price: 11000, volume: 1000 },
-      { name: "우유", price: 5100, volume: 2300 },
-    ],
     name: "요거트 아이스크림(400)",
-    recipes_ingredients_volume: [{ volume: 1000 }, { volume: 4000 }],
-    total_volume: 4000,
     unit_volume: 400,
+    total_volume: 4000,
+    ingredients: [
+      {
+        volume: 1000,
+        detail: {
+          id: 3,
+          name: "요거트 가루",
+          price: 11000,
+          volume: 1000,
+        },
+      },
+      {
+        volume: 4000,
+        detail: {
+          id: 4,
+          name: "우유",
+          price: 5100,
+          volume: 2300,
+        },
+      },
+    ],
   },
 ];
 

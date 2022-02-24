@@ -1,16 +1,17 @@
 export type Ingredient = {
+  volume: number;
+  detail: IngredientDetail;
+};
+export type IngredientDetail = {
+  id: number;
   name: string;
   price: number;
-  volume: number;
-};
-export type RecipesIngredientsVolume = {
   volume: number;
 };
 
 export type RecipeIngredients = {
   ingredients: Array<Ingredient>;
   name: string;
-  recipes_ingredients_volume: Array<RecipesIngredientsVolume>;
   total_volume: number;
   unit_volume: number;
 };
@@ -27,10 +28,10 @@ export function getDenormalizedIngredients(
   const items = recipeIngredient.ingredients.reduce(
     (prev: DenormalizedRecipes, obj: Ingredient, idx: number) => {
       const itemPrice =
-        (obj.price / obj.volume) *
+        (obj.detail.price / obj.detail.volume) *
         (recipeIngredient.unit_volume / recipeIngredient.total_volume) *
-        recipeIngredient.recipes_ingredients_volume[idx].volume;
-      prev[`item${idx + 1}Name`] = obj.name;
+        obj.volume;
+      prev[`item${idx + 1}Name`] = obj.detail.name;
       prev[`item${idx + 1}Price`] = itemPrice.toFixed(2);
       sumPrice += itemPrice;
       return prev;

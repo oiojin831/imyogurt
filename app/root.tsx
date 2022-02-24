@@ -24,10 +24,13 @@ import ClientStyleContext from "./context.client";
 import { Shell } from "./components/layouts/Shell";
 import { theme } from "@chakra-ui/pro-theme";
 import IconSwitch from "./components/switch/src/theme-icon-switch";
-import "@fontsource/inter/variable.css";
+
+if (process.env.NODE_ENV === "development") {
+  require("../mocks");
+}
 
 export const meta: MetaFunction = () => {
-  return { title: "Remix + Chakra UI App" };
+  return { title: "아임 요거트 관리자 페이지" };
 };
 
 export function ErrorBoundary({ error }: { error: Error }) {

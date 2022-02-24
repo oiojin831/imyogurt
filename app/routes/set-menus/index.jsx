@@ -15,6 +15,7 @@ import {
 
 export const loader = async () => {
   const { data } = await supabase.rpc("set_menu_infos");
+  console.log(data);
 
   const result = groupedByName(data);
   const secondGroup = Object.values(result).map((re) =>
@@ -44,7 +45,6 @@ export const loader = async () => {
 
 export default function Index() {
   const data = useLoaderData();
-  // console.log(JSON.stringify(data, null, 2));
   return (
     <Flex flexFlow="wrap" justify="space-around">
       {data.map((entry, idx) => {
@@ -58,16 +58,22 @@ export default function Index() {
             px={{ md: "8" }}
             key={idx}
           >
-            <Button
-              as={Link}
-              to={`/set-menus/${entry[Object.keys(entry)[0]][0].set_menu_id}`}
-              colorScheme="teal"
-              variant="outline"
-            >
-              수정
-            </Button>
             <Card maxW="3xl" mx="auto">
-              <CardHeader title={Object.keys(entry)[0]} />
+              <CardHeader
+                title={Object.keys(entry)[0]}
+                action={[
+                  <Button
+                    as={Link}
+                    to={`/set-menus/${
+                      entry[Object.keys(entry)[0]][0].set_menu_id
+                    }`}
+                    colorScheme="teal"
+                    variant="outline"
+                  >
+                    수정
+                  </Button>,
+                ]}
+              />
               <CardContent>
                 <>
                   {Object.values(entry)[0].map((recipe, idx) => {

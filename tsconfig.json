@@ -1,5 +1,5 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/routes/index.jsx", "app/models/test/costs.test.ts", "app/hooks/usePrev.jsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/routes/index.jsx", "app/models/test/costs.test.ts", "app/hooks/usePrev.jsx", "mocks/browser.js", "mocks/handlers.js", "mocks/index.js"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
