@@ -20,7 +20,7 @@ async function getCosts(count = 1000) {
         )
       `
     )
-    .limit(2)
+    .limit(count)
     .order("id", { ascending: true });
 
   const arrangedData = data?.map((ele) => getDenormalizedIngredients(ele));

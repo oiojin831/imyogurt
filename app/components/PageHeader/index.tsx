@@ -44,7 +44,7 @@ export const PageHeader = ({
             <Button variant="secondary">{`${title} 홈으로`}</Button>
           </Link>
           <Link to={`${url}/new`}>
-            <Button variant="primary">{`${title} 페이지로`}</Button>
+            <Button variant="primary">{`${title} 추가페이지로`}</Button>
           </Link>
         </Stack>
       </Stack>
