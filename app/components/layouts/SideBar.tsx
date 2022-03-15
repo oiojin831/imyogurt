@@ -37,6 +37,9 @@ export const SideBar = ({ onClose }: any) => {
               <Link onClick={() => onClose()} to="/prices">
                 원가
               </Link>
+              <Link onClick={() => onClose()} to="/menu-images">
+                메뉴 이미지 올리기
+              </Link>
               <Switch
                 aria-label="Toggle color mode"
                 leftIcon={<FaMoon color={getColor(theme, "yellow.400")} />}

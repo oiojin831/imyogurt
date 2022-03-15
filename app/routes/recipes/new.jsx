@@ -1,23 +1,23 @@
-import { redirect, Form, useLoaderData } from 'remix';
-import { createRecipe } from '../../remoteApi';
-import { Select } from '@chakra-ui/react';
-import { supabase } from '../../libs/supabase.js';
-import { FormLabel, Flex, Button, Input } from '@chakra-ui/react';
+import { redirect, Form, useLoaderData } from "remix";
+import { createRecipe } from "../../remoteApi";
+import { Select } from "@chakra-ui/react";
+import { supabase } from "../../libs/supabase.js";
+import { FormLabel, Flex, Button, Input } from "@chakra-ui/react";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
 
-  const name = formData.get('name');
-  const totalVolume = formData.get('totalVolume');
-  const unitVolume = formData.get('unitVolume');
+  const name = formData.get("name");
+  const totalVolume = formData.get("totalVolume");
+  const unitVolume = formData.get("unitVolume");
   //const price = formData.get('price');
   // 판매가는 정해지는게 아니기 때문에 레시피 보다는 다른 테이블에 넣는게 좋을거같다
   const ingredientIds = [];
   const ingredientVolumes = [];
   [0, 1, 2, 3, 4].forEach((idx) => {
-    if (formData.get(`ingredient${idx}`) !== null) {
-      ingredientIds.push(formData.get(`ingredient${idx}`));
-      ingredientVolumes.push(formData.get(`ingredient${idx}Volume`));
+    if (formData.get(`ingredient${idx + 1}`) !== null) {
+      ingredientIds.push(formData.get(`ingredient${idx + 1}`));
+      ingredientVolumes.push(formData.get(`ingredient${idx + 1}Volume`));
     }
   });
   await createRecipe({
@@ -25,15 +25,19 @@ export const action = async ({ request }) => {
     unitVolume,
     totalVolume,
     // price,
-    ingredientIds,
-    ingredientVolumes,
+    ingredientIds: ingredientIds
+      .filter((ele) => ele !== "")
+      .map((ele) => parseInt(ele)),
+    ingredientVolumes: ingredientVolumes
+      .filter((ele) => ele !== "")
+      .map((ele) => parseInt(ele)),
   });
 
-  return redirect('/recipes');
+  return redirect("/recipes");
 };
 export const loader = async ({ request }) => {
   // ingredients 종류를 다 가져오기
-  let { data, error } = await supabase.from('ingredients').select('id, name');
+  let { data, error } = await supabase.from("ingredients").select("id, name");
   return data;
 };
 
@@ -49,7 +53,7 @@ export default function NewRecipe() {
           개당 용량: <Input type="number" id="unitVolume" name="unitVolume" />
         </FormLabel>
         <FormLabel htmlFor="totalVolume">
-          총 생산 용양:{' '}
+          총 생산 용양:{" "}
           <Input type="number" id="totalVolume" name="totalVolume" />
         </FormLabel>
         {/* <FormLabel htmlFor="price">
@@ -58,7 +62,7 @@ export default function NewRecipe() {
       </Flex>
       <Flex>
         <FormLabel htmlFor="ingredient1Volume">
-          한번 생산시 들어가는 재료1의 용량:{' '}
+          한번 생산시 들어가는 재료1의 용량:{" "}
           <Input
             type="number"
             id="ingredient1Volume"
