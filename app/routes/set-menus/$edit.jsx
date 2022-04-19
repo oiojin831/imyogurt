@@ -1,16 +1,16 @@
-import { redirect, Form, useLoaderData } from 'remix';
-import { createSetMenu } from '../../remoteApi';
-import { Select } from '@chakra-ui/react';
-import { supabase } from '../../libs/supabase.js';
-import { FormLabel, Flex, Button, Input } from '@chakra-ui/react';
-import React from 'react';
+import { redirect, Form, useLoaderData } from "remix";
+import { createSetMenu } from "../../remoteApi";
+import { Select } from "@chakra-ui/react";
+import { supabase } from "../../libs/supabase.js";
+import { FormLabel, Flex, Button, Input } from "@chakra-ui/react";
+import React from "react";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
   let { _action, ...values } = Object.fromEntries(formData);
 
-  const name = formData.get('name');
-  const id = formData.get('menuId');
+  const name = formData.get("name");
+  const id = formData.get("menuId");
   const recipeIds = [];
   const setMenuRecipeIds = [];
   const recipeQuantities = [];
@@ -21,7 +21,7 @@ export const action = async ({ request }) => {
       recipeQuantities.push(formData.get(`recipe${idx + 1}Quantity`));
     }
   });
-  if (_action === 'update') {
+  if (_action === "update") {
     await createSetMenu({
       id,
       name,
@@ -31,20 +31,21 @@ export const action = async ({ request }) => {
     });
   } else {
     await createSetMenu({
+      id,
       name: `${name}-copy`,
       recipeIds,
       recipeQuantities,
     });
   }
 
-  return redirect('/set-menus');
+  return redirect("/set-menus");
 };
 
 export const loader = async ({ params }) => {
   const { data: set_menu, error } = await supabase
     .rpc(`get_set_menu_info`, { input_set_menu_id: params.edit })
-    .select('*');
-  let { data: recipes } = await supabase.from('recipes').select('id, name');
+    .select("*");
+  let { data: recipes } = await supabase.from("recipes").select("id, name");
   return { set_menu, recipes };
 };
 
@@ -61,7 +62,7 @@ export default function NewSetMenu() {
       />
       <Flex>
         <FormLabel htmlFor="name">
-          Name:{' '}
+          Name:{" "}
           <Input
             type="text"
             id="name"
@@ -82,7 +83,7 @@ export default function NewSetMenu() {
                 defaultValue={set_menu[num]?.set_menu_recipe_id}
               />
               <FormLabel htmlFor={`recipe${num + 1}Quantity`}>
-                한번 생산시 들어가는 재료{num + 1}의 용량:{' '}
+                한번 생산시 들어가는 재료{num + 1}의 용량:{" "}
                 <Input
                   type="number"
                   id={`recipe${num + 1}Quantity`}
