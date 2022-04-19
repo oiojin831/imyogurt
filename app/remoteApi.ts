@@ -18,7 +18,7 @@ type Recipe = {
 type SetMenu = {
   id: number;
   name: string;
-  recipeIds: Array<number>;
+  recipeIds: Array<number | string>;
   setMenuRecipeIds: Array<number>;
   recipeQuantities: Array<number>;
 };
@@ -89,13 +89,15 @@ export async function createSetMenu(setMenu: SetMenu) {
       await supabase.from("set_menus_recipes").upsert(updateRecipes);
       await supabase.from("set_menus_recipes").insert(newRecipes);
     } else {
-      const recipes = recipeIds.map((reci, idx) => {
-        return {
-          set_menu_id: data.id,
-          recipe_id: reci,
-          quantity: recipeQuantities[idx],
-        };
-      });
+      const recipes = recipeIds
+        .filter((e) => e !== 0)
+        .map((reci, idx) => {
+          return {
+            set_menu_id: data.id,
+            recipe_id: reci,
+            quantity: recipeQuantities[idx],
+          };
+        });
       await supabase.from("set_menus_recipes").insert(recipes);
     }
   } catch (erro) {
