@@ -15,7 +15,6 @@ import {
 
 export const loader = async () => {
   const { data } = await supabase.rpc("set_menu_infos");
-  console.log(data);
 
   const result = groupedByName(data);
   const secondGroup = Object.values(result).map((re) =>

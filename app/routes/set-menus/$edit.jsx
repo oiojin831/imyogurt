@@ -11,9 +11,9 @@ export const action = async ({ request }) => {
 
   const name = formData.get("name");
   const id = formData.get("menuId");
-  const recipeIds = [];
-  const setMenuRecipeIds = [];
-  const recipeQuantities = [];
+  let recipeIds = [];
+  let setMenuRecipeIds = [];
+  let recipeQuantities = [];
   [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((idx) => {
     if (formData.get(`recipe${idx + 1}`) !== null) {
       recipeIds.push(formData.get(`recipe${idx + 1}`));
@@ -21,6 +21,9 @@ export const action = async ({ request }) => {
       recipeQuantities.push(formData.get(`recipe${idx + 1}Quantity`));
     }
   });
+  recipeIds = recipeIds.filter((e) => e !== "");
+  setMenuRecipeIds = setMenuRecipeIds.filter((e) => e !== "");
+  recipeQuantities = recipeQuantities.filter((e) => e !== "");
   if (_action === "update") {
     await createSetMenu({
       id,
@@ -31,8 +34,8 @@ export const action = async ({ request }) => {
     });
   } else {
     await createSetMenu({
-      id,
-      name: `${name}-copy`,
+      id: null,
+      name,
       recipeIds,
       recipeQuantities,
     });

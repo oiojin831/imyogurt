@@ -41,13 +41,9 @@ async function getSetMenus(count = 1000) {
     )
     .limit(1);
 
-  console.log("data", JSON.stringify(data[0], null, "  "));
   const setMenus = data?.map((setMenu) => {
-    console.log("setmenu 1");
     const recipes = setMenu.recipes.map((recipe) => {
-      console.log("recipes 1");
       const ingredients = recipe.item.ingredients.map((ingredient) => {
-        console.log("ingredient 1");
         return {
           ...ingredient.item,
         };
